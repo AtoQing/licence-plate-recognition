@@ -74,7 +74,6 @@ class main(QMainWindow):   #tüm gui ve kodlar burda olmalı. self vs def dış�
         while True:  # if else buraya koyuyor
             try:
 
-                #print("TRY")
                 time.sleep(0.1)  #süre uzun olursa genelde hata veriyor. Çünkü python aynı anda iki işi yapamıyor. sleep demek tüm sistemi uyutmak demek
                 value = board.sonar_read(trigpin)
                 print("VALUE=", value[0])  # value = [distance, ?]
@@ -116,7 +115,7 @@ class main(QMainWindow):   #tüm gui ve kodlar burda olmalı. self vs def dış�
                         time.sleep(0.2)
 
                         self.pixmap = QPixmap('plaka.jpg')
-                        self.label.setPixmap(self.pixmap)  # image label üstüne basılabilir. text vs basmaz
+                        self.label.setPixmap(self.pixmap)           # image label üstüne basılabilir. text vs basmaz
                         Çıkış = datetime.now()
                         saat1 = datetime.strftime(Çıkış, '%X')
                         tarih1 = str(Çıkış.day) + "/" + str(Çıkış.month) + "/" + str(Çıkış.year) + "   " + str(saat1)
@@ -143,24 +142,3 @@ pencere.show()
 uygulama.exec_()
 
 
-
-
-"""""
-uygulama = QApplication([])   #GUI kapat
-pencere = main()
-pencere.show()
-uygulama.exec_()
-
- GENEL İŞLEMLER 
-        self.textBrowser.setStyleSheet("background-color:red;")
-        #Kutu rengini değiştirme.   https://htmlcolorcodes.com/   bu siteden istediğin farklı renklerin kodunu alabilirsin. red yerine #.... kodunu yapıştır.
-        self.pixmap = QPixmap('plaka.jpg')
-        self.label.setPixmap(self.pixmap)    #image label üstüne basılabilir. text vs basmaz
-
-        Giriş = datetime.now()
-        saat = datetime.strftime(Giriş, '%X')
-        global tarih
-        tarih = str(Giriş.day) + "/" + str(Giriş.month) + "/" + str(Giriş.year) +"   "+ str(saat)
-        self.textBrowser_9.setText(tarih)
-        # burayı hemen çalıştırıor. if koymak iyi olur
-"""""
