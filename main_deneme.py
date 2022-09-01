@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import *       #gui için temel iki kütüph ane
+from PyQt5.QtWidgets import *       #gui için temel iki kütüphane
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap   #pixmap yani foto koymak için
+from PyQt5.QtGui import QPixmap   #pixmap GUI ye foto koymak için
 import sqlite3 as sql
 
 import cv2
@@ -56,7 +56,7 @@ class main(QMainWindow):   #tüm gui ve kodlar burda olmalı. self vs def dış�
         board.set_pin_mode_digital_output(green_led)
 
 
-        if len(karakterler)!=0:
+        if len(karakterler)!=0:             # karakterler klasörü boş değilse yani araç plakası alınmışsa süreyi başlat 
             Giriş = datetime.now()
             saat = datetime.strftime(Giriş, '%X')
             tarih = str(Giriş.day) + "/" + str(Giriş.month) + "/" + str(Giriş.year) + "   " + str(saat)
@@ -75,7 +75,7 @@ class main(QMainWindow):   #tüm gui ve kodlar burda olmalı. self vs def dış�
             try:
 
                 #print("TRY")
-                time.sleep(0.1)  #süre uzun olursa genelde hata veriyor. Çünkü python aynı anda iki işi yapamıyor. sllep demek tüm sistemi uyutmak demek
+                time.sleep(0.1)  #süre uzun olursa genelde hata veriyor. Çünkü python aynı anda iki işi yapamıyor. sleep demek tüm sistemi uyutmak demek
                 value = board.sonar_read(trigpin)
                 print("VALUE=", value[0])  # value = [distance, ?]
 
@@ -83,32 +83,34 @@ class main(QMainWindow):   #tüm gui ve kodlar burda olmalı. self vs def dış�
                 if value[0] == None:
                     pass
 
-
-                if value[0] < 50:
-                    if len(karakterler) != 0:
+    # yaklaşma durumu
+    
+                if value[0] < 50:               
+                    if len(karakterler) != 0:       # Klasör boş değilse araç gelmiştir
 
                         board.digital_write(green_led, 1)
                         time.sleep(0.2)
                         print("araç parkta !!")
                         self.textBrowser.setStyleSheet("background-color:red;")
 
-                    if len(karakterler) == 0:
+                    if len(karakterler) == 0:       # klasör boş ise cisim gelmiştir
 
                         board.digital_write(red_led, 1)
                         time.sleep(1)
                         print("Sensorde cisim var !!")
 
 
+# uzaklaşma durumu
 
-                if value[0] > 50:
-                    #print("sensor calisiyor !!!")
-                    if len(karakterler) == 0:
+                if value[0] > 50:          
+                    
+                    if len(karakterler) == 0:           # klasör boş ise cisim uzaklaşmıştır
                         print("cisim ayrildi !!")
                         board.digital_write(red_led, 0)
                         time.sleep(0.2)
                         break
 
-                    if len(karakterler) != 0:
+                    if len(karakterler) != 0:            # klasör dolu ise araba uzaklaşmıştır
                         print("arac ayrildi !!")
                         board.digital_write(green_led, 0)
                         time.sleep(0.2)
